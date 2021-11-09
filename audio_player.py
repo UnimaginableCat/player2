@@ -30,6 +30,7 @@ class AudioPlayer:
         self.btn_play.config(text="play")
 
     def stop_music(self):
+        self.start_state = True
         self.mix.music.stop()
         self.playing = False
 
