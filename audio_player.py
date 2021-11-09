@@ -20,6 +20,7 @@ class AudioPlayer:
     repeat = False
     SONG_END = pygame.USEREVENT + 1
     next_clicked = False
+    start_state = True
 
     def full_stop_music(self):
         self.mix.music.stop()
@@ -66,6 +67,7 @@ class AudioPlayer:
                 self.curr_index += 1
         self.next_clicked = False
         # print(self.curr_index)
+
     def play_music(self):
         if self.playing:
             self.mix.music.pause()
@@ -108,10 +110,26 @@ class AudioPlayer:
             self.btn_repeat.config(text="repeat on")
             self.repeat = True
 
+    def next_song_because_ended(self):
+        if self.playing:
+            if self.curr_index == len(self.audio_list) - 1:
+                self.curr_index = 0
+            else:
+                self.curr_index += 1
+            self.new_song = True
+            self.stop_music()
+            self.play_music()
+        else:
+            if self.curr_index == len(self.audio_list) - 1:
+                self.curr_index = 0
+            else:
+                self.curr_index += 1
+
     def check_music(self):
         while True:
             for event in self.game.event.get():
-                if (event.type == self.SONG_END) & self.next_clicked == False:
+                if (event.type == self.SONG_END) & self.start_state == False:
+                    print("smth")
                     self.next_song()
 
     def __init__(self):
