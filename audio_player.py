@@ -34,7 +34,6 @@ class AudioPlayer:
         self.playing = False
 
     def prev_song(self):
-        self.start_state = True
         if self.playing:
             if self.curr_index != 0:
                 self.curr_index -= 1
@@ -49,11 +48,9 @@ class AudioPlayer:
                 self.curr_index -= 1
             else:
                 self.curr_index = len(self.audio_list) - 1
-        self.start_state = False
         # print(self.curr_index)
 
     def next_song(self):
-        self.start_state = True
         if self.playing:
             if self.curr_index == len(self.audio_list) - 1:
                 self.curr_index = 0
@@ -67,7 +64,6 @@ class AudioPlayer:
                 self.curr_index = 0
             else:
                 self.curr_index += 1
-        self.start_state = False
         # print(self.curr_index)
 
     def play_music(self):
@@ -117,7 +113,7 @@ class AudioPlayer:
     def check_music(self):
         while True:
             for event in self.game.event.get():
-                if event.type == self.SONG_END & self.start_state == False:
+                if (event.type == self.SONG_END) & (self.start_state == False):
                     print("smth")
                     self.next_song()
 
