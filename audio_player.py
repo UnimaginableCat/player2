@@ -34,6 +34,7 @@ class AudioPlayer:
         self.playing = False
 
     def prev_song(self):
+        self.start_state = True
         if self.playing:
             if self.curr_index != 0:
                 self.curr_index -= 1
@@ -51,6 +52,7 @@ class AudioPlayer:
         # print(self.curr_index)
 
     def next_song(self):
+        self.start_state = True
         if self.playing:
             if self.curr_index == len(self.audio_list) - 1:
                 self.curr_index = 0
