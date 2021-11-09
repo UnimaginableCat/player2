@@ -71,7 +71,6 @@ class AudioPlayer:
         # print(self.curr_index)
 
     def play_music(self):
-        self.start_state = False
         if self.playing:
             self.mix.music.pause()
             self.song_pos = self.mix.music.get_pos()
@@ -92,6 +91,7 @@ class AudioPlayer:
                         self.mix.music.unpause()
                         self.btn_play.config(text="pause")
                         self.playing = True
+                    self.start_state = False
                 case True:
                     self.mix.music.load(self.audio_list[self.curr_index])
                     song_name: str = self.audio_list[self.curr_index]
@@ -101,7 +101,7 @@ class AudioPlayer:
                     self.btn_play.config(text="pause")
                     self.new_song = False
                     self.playing = True
-        self.start_state = True
+                    self.start_state = False
 
     def change_vol(self, value):
         self.mix.music.set_volume(float(value) / 100)
@@ -113,21 +113,6 @@ class AudioPlayer:
         else:
             self.btn_repeat.config(text="repeat on")
             self.repeat = True
-
-    def next_song_because_ended(self):
-        if self.playing:
-            if self.curr_index == len(self.audio_list) - 1:
-                self.curr_index = 0
-            else:
-                self.curr_index += 1
-            self.new_song = True
-            self.stop_music()
-            self.play_music()
-        else:
-            if self.curr_index == len(self.audio_list) - 1:
-                self.curr_index = 0
-            else:
-                self.curr_index += 1
 
     def check_music(self):
         while True:
