@@ -34,6 +34,7 @@ class AudioPlayer:
         self.playing = False
 
     def prev_song(self):
+        self.start_state = True
         if self.playing:
             if self.curr_index != 0:
                 self.curr_index -= 1
@@ -48,10 +49,11 @@ class AudioPlayer:
                 self.curr_index -= 1
             else:
                 self.curr_index = len(self.audio_list) - 1
+        self.start_state = False
         # print(self.curr_index)
 
     def next_song(self):
-        self.next_clicked = True
+        self.start_state = True
         if self.playing:
             if self.curr_index == len(self.audio_list) - 1:
                 self.curr_index = 0
@@ -65,10 +67,11 @@ class AudioPlayer:
                 self.curr_index = 0
             else:
                 self.curr_index += 1
-        self.next_clicked = False
+        self.start_state = False
         # print(self.curr_index)
 
     def play_music(self):
+        self.start_state = False
         if self.playing:
             self.mix.music.pause()
             self.song_pos = self.mix.music.get_pos()
@@ -98,6 +101,7 @@ class AudioPlayer:
                     self.btn_play.config(text="pause")
                     self.new_song = False
                     self.playing = True
+        self.start_state = True
 
     def change_vol(self, value):
         self.mix.music.set_volume(float(value) / 100)
@@ -128,7 +132,7 @@ class AudioPlayer:
     def check_music(self):
         while True:
             for event in self.game.event.get():
-                if (event.type == self.SONG_END) & self.start_state == False:
+                if event.type == self.SONG_END & self.start_state == False:
                     print("smth")
                     self.next_song()
 
